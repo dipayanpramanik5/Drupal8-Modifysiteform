@@ -1,0 +1,37 @@
+<?php
+
+// Use form alter to modify an existing form
+
+function Modifysiteform_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
+	
+    // to alter 'Basic Site Settings' form use the form Id of 'Basic Site Settings'
+	
+     if($form_id == 'system_site_information_settings') {
+		 
+		//use 'siteform.adminsettings' is a configuration name to fetch the value of 'siteapikey_value' field from the configuration
+		
+        $read_config = \Drupal::config('siteform.adminsettings');
+        $types = $read_config->get('siteapikey_value');
+
+        //Introducing a new field called Site Api Key
+		
+        $form['siteapikey'] = array(
+				'#title' => 'Site API Key',
+				'#type' => 'textfield',
+                '#default_value'=> !empty($types)?$types:'No API Key'
+			);  
+        $form['actions']['submit']['#value'] = t('Update Configuration'); //Change Submit button value
+        $form['actions']['submit']['#submit'][] = '_custom_submit'; //Use a custom submit function to save the value of Site API Key Field
+		
+    } 
+}
+
+function _custom_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+	
+  $save_config = \Drupal::service('config.factory')->getEditable('siteform.adminsettings'); // To change configuration value use the instance of mutable config object 
+  $save_config->set('siteapikey_value', $form_state->getValue(array('siteapikey')))->save();
+  
+  // User can see a message on the screen after submiting the form which contain the value of Site Api Key that user has given by itself
+  
+  drupal_set_message("Site API Key has been saved with ".$form_state->getValue(array('siteapikey')));
+}

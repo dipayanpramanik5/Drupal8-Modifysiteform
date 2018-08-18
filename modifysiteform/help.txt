@@ -1,0 +1,9 @@
+A)I have used following resources to completet this task:
+ 1. https://www.drupal.org/docs/8/api/responses/responses-overview
+ 2.https://drupal.stackexchange.com/questions/191419/drupal-8-node-serialization-to-json
+ 3.https://befused.com/drupal/drupal8-admin-form-guide
+ 4.Use a contrib module called 	'Serialization' which provides a service for (de)serializing data to/from formats such as JSON and XML
+ 
+ 
+B)Total Completion Time: 20 Hours
+ 
